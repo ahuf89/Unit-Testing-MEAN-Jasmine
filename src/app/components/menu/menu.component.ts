@@ -6,7 +6,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-
+  counter = 0;
   @Output() clicked = new EventEmitter<boolean>();
-
+  
+  incrementar(){
+     this.counter++;
+  } 
 }

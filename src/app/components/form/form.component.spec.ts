@@ -75,6 +75,37 @@ fdescribe('FormComponent', () => {
       console.log(Object.keys(assets.controls));
       expect(Object.keys(assets.controls)).toEqual(['0', '1']);//Obtiene los valores de las llaves
     });
+  });
 
-  })
+  describe('When delete assets',()=>{
+    it('Should remove the form control',()=>{
+      const assets = <FormArray>component.secondFormGroup.get('assets');      
+      
+      component.addAsset();//Agrega un componente
+
+      component.deleteAsset(0);//Borrar el componente
+  
+      expect(Object.keys(assets.controls)).toEqual([]);//Espera que este vacio
+
+    });
+  });
+
+  describe('When savePins is executed',()=>{
+    it('Should navigate to pins view',() =>{
+      // Espia metodo privado y hace un casting a any y accede a el  metodo navegar para saber si fue llamado
+      const navigate = spyOn((<any>component).navigate,'goToPins');
+      
+      // Espia para el metodo open del snackBar
+      const open = spyOn((<any>component).snackBar, 'open').and.callThrough();
+      
+      component.savePin();//guardar el componente
+
+      expect(navigate).toHaveBeenCalled();//espera que si todo se resuelve navegue a this.navigate.goToPins(); linea 95
+      console.log('working')
+      //Probar que el mensaje no se cambio 
+      expect(open).toHaveBeenCalledWith('Your pin is saved, Redirecting ...', 'Cool!', {
+        duration: 2000//que se llame con esos tres elementos
+      });
+    });
+  });
 });
